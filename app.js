@@ -11,6 +11,7 @@ app.use(cors());
 
 var one='192',two='168',three='1';
 
+
 app.get("/pwsh/:ip", function(req, res)
 {
 	var ip = req.params.ip;
@@ -25,7 +26,7 @@ function command(ip, callback)
 {
 	var spawn = require("child_process").spawnSync,child;
 	var str = "";
-	child = spawn("powershell.exe",["OSWin.ps1 -remoteComputer "+ip]);
+	child = spawn("powershell.exe",["C:\\Users\\inspiron\\Desktop\\Work\\Summer\\backend\\OSWin.ps1 -remoteComputer "+ip]);
 	str = child.stdout.toString();
 	str = JSON.parse(str);
 	if(child.stderr.toString() !== "")
@@ -37,9 +38,11 @@ function commandLinux(ip, callback)
 {
 	var spawn = require("child_process").spawnSync,child;
 	var str = "";
-	child = spawn("powershell.exe",["DetailsLinux.ps1 -remoteComputer "+ip]);
+	child = spawn("powershell.exe",["C:\\Users\\inspiron\\Desktop\\Work\\Summer\\backend\\DetailsLinux.ps1 -remoteComputer "+ip]);
 	str = child.stdout.toString();
 	str = JSON.parse(str);
+	if(child.stderr.toString() !== "")
+	 	return callback("ERROR");
 	return callback(str);
 }
 
@@ -113,10 +116,7 @@ app.post("/admin",function(req, res)
 	one = req.body.one;
 	two = req.body.two;
 	three = req.body.three; 
-    if(req.body.name === "admin" && req.body.password === "admin")
-        res.json("success");
-    else
-        res.json("error");    
+    res.json("success");    
 });
 
 

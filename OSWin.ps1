@@ -4,16 +4,16 @@ $ans = @()
 
 #Hostname
 $Q1 = $env:computername
-$ans += "Hostname: "+$Q1
+$ans += "Hostname= "+$Q1
 
 #OS
 $Q2 = Get-WmiObject -computername $remoteComputer -class win32_operatingsystem
-$ans += "Operating System: " + $Q2.name.split("|")[0] +" Version " + $Q2.version + " Architecture " + $Q2.OSArchitecture
+$ans += "Operating System= " + $Q2.name.split("|")[0] +" Version " + $Q2.version + " Architecture " + $Q2.OSArchitecture
 
 #Processor
 $Q3 = Get-WmiObject -computername $remoteComputer -class win32_Processor
 $s3 = $Q3.name
-$ans += "Processor: "+$s3
+$ans += "Processor= "+$s3
 
 #RAM
 $Q4 = Get-WmiObject Win32_PhysicalMemory -computername $remoteComputer | Measure-Object -Property Capacity -Sum
@@ -26,12 +26,12 @@ else
 {
 	[string]$s4 = $Q4.sum/1024/1024 + " MB"
 }
-$ans += "RAM Capacity: "+$s4
+$ans += "RAM Capacity= "+$s4
 
 #Video Card
 $Q5 = Get-WmiObject Win32_VideoController -computername $remoteComputer
 $s5 = $Q5.caption[0] + " Version " + $Q5.driverVersion[0] + " " + $Q5.caption[1] + " Version " + $Q5.driverVersion[1]  
-$ans += "Video Card(if any): "+$s5
+$ans += "Video Card(if any)= "+$s5
 
 #Disk Capacity
 $Q6 = Get-WmiObject -computername $remoteComputer -class Win32_Volume
@@ -41,11 +41,11 @@ forEach($ai in $a)
 	$sum += $ai
 }
 $cap = $([math]::floor($sum/ (1024 * 1024 * 1024 )))
-$s6 ="Disk Capacity: "+ $cap + " GB" 
+$s6 ="Disk Capacity= "+ $cap + " GB" 
 $ans += $s6
 
 #Filesystem
-$s7 = "File System: " + $Q6.FileSystem
+$s7 = "File System= " + $Q6.FileSystem
 $ans += $s7
 
 #Devices
@@ -53,7 +53,7 @@ $ans += $s7
 #$Q9
 
 #Serial Number 
-$ans += "Serial Number: "+$Q2.SerialNumber
+$ans += "Serial Number= "+$Q2.SerialNumber
 
 $ans | ConvertTo-Json
 
